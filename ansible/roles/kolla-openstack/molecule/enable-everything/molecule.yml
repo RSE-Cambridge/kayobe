@@ -26,6 +26,7 @@ provisioner:
         kolla_extra_designate: |
           [extra-designate.conf]
           foo=bar
+        kolla_enable_elasticsearch: true
         kolla_enable_glance: true
         kolla_extra_glance: |
           [extra-glance.conf]
@@ -53,6 +54,10 @@ provisioner:
         kolla_enable_kafka: true
         kolla_extra_kafka: |
           [extra-kafka.server.properties]
+          foo=bar
+        kolla_enable_keystone: true
+        kolla_extra_keystone: |
+          [extra-keystone.conf]
           foo=bar
         kolla_enable_magnum: true
         kolla_extra_magnum: |

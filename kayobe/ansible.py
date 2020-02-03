@@ -109,7 +109,7 @@ def _get_vars_files(config_path):
     vars_files = []
     for vars_file in os.listdir(config_path):
         abs_path = os.path.join(config_path, vars_file)
-        if utils.is_readable_file(abs_path):
+        if utils.is_readable_file(abs_path)["result"]:
             root, ext = os.path.splitext(vars_file)
             if ext in (".yml", ".yaml", ".json"):
                 vars_files.append(abs_path)
@@ -118,7 +118,7 @@ def _get_vars_files(config_path):
 
 def build_args(parsed_args, playbooks,
                extra_vars=None, limit=None, tags=None, verbose_level=None,
-               check=None):
+               check=None, ignore_limit=False):
     """Build arguments required for running Ansible playbooks."""
     cmd = ["ansible-playbook"]
     if verbose_level:
@@ -145,7 +145,7 @@ def build_args(parsed_args, playbooks,
         cmd += ["--become"]
     if check or (parsed_args.check and check is None):
         cmd += ["--check"]
-    if parsed_args.limit or limit:
+    if not ignore_limit and (parsed_args.limit or limit):
         limits = [l for l in [parsed_args.limit, limit] if l]
         cmd += ["--limit", ":&".join(limits)]
     if parsed_args.skip_tags:
@@ -159,12 +159,14 @@ def build_args(parsed_args, playbooks,
 
 def run_playbooks(parsed_args, playbooks,
                   extra_vars=None, limit=None, tags=None, quiet=False,
-                  check_output=False, verbose_level=None, check=None):
+                  check_output=False, verbose_level=None, check=None,
+                  ignore_limit=False):
     """Run a Kayobe Ansible playbook."""
     _validate_args(parsed_args, playbooks)
     cmd = build_args(parsed_args, playbooks,
                      extra_vars=extra_vars, limit=limit, tags=tags,
-                     verbose_level=verbose_level, check=check)
+                     verbose_level=verbose_level, check=check,
+                     ignore_limit=ignore_limit)
     env = os.environ.copy()
     vault.update_environment(parsed_args, env)
     # If the configuration path has been specified via --config-path, ensure
@@ -275,3 +277,10 @@ def prune_galaxy_roles(parsed_args):
     ]
     LOG.debug("Removing roles: %s", ",".join(roles_to_remove))
     utils.galaxy_remove(roles_to_remove, "ansible/roles")
+
+
+def passwords_yml_exists(parsed_args):
+    """Return whether passwords.yml exists in the kayobe configuration."""
+    passwords_path = os.path.join(parsed_args.config_path,
+                                  'kolla', 'passwords.yml')
+    return utils.is_readable_file(passwords_path)["result"]

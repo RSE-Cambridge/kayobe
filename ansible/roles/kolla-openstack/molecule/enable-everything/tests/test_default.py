@@ -70,6 +70,7 @@ def test_service_config_directory(host, path):
      'ironic.conf',
      'ironic-inspector.conf',
      'kafka.server.properties',
+     'keystone.conf',
      'magnum.conf',
      'manila.conf',
      'neutron/ml2_conf.ini',

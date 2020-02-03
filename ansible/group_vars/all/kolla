@@ -77,7 +77,7 @@ kolla_openstack_release: "rocky"
 # kolla_install_type=source. See kolla.common.config for details.
 # Example:
 # kolla_sources:
-#   ironic_base:
+#   ironic-base:
 #     type: git
 #     location: https://github.com/openstack/ironic
 #     reference: master
@@ -160,7 +160,7 @@ overcloud_container_image_regex_map:
   - regex: keepalived
     enabled: "{{ kolla_enable_haproxy | bool }}"
   - regex: keystone
-    enabled: True
+    enabled: "{{ kolla_enable_keystone | bool }}"
   - regex: kibana
     enabled: "{{ kolla_enable_kibana | bool }}"
   - regex: kolla-toolbox
@@ -319,7 +319,7 @@ kolla_enable_tls_external: "no"
 kolla_openstack_logging_debug: "False"
 
 # Upper constraints file for installation of Kolla.
-kolla_upper_constraints_file: "https://opendev.org/openstack/requirements/raw/branch/stable/rocky/upper-constraints.txt"
+kolla_upper_constraints_file: "{{ pip_upper_constraints_file }}"
 
 # User account to use for Kolla SSH access.
 kolla_ansible_user: kolla
@@ -340,6 +340,9 @@ kolla_enable_central_logging: "no"
 kolla_enable_caso: "no"
 kolla_enable_ceph: "no"
 kolla_enable_ceilometer: "no"
+# The chrony container is disabled by default because we enable an NTP daemon
+# on the host. Setting this to true will disable NTP on the host.
+kolla_enable_chrony: "no"
 kolla_enable_cinder: "no"
 kolla_enable_collectd: "no"
 kolla_enable_designate: "no"
@@ -357,6 +360,7 @@ kolla_enable_ironic: "yes"
 kolla_enable_ironic_ipxe: "no"
 kolla_enable_ironic_neutron_agent: "{{ 'yes' if kolla_enable_neutron | bool and kolla_enable_ironic | bool else 'no' }}"
 kolla_enable_kafka: "{{ 'yes' if kolla_enable_monasca | bool else 'no' }}"
+kolla_enable_keystone: "yes"
 kolla_enable_kibana: "{{ 'yes' if kolla_enable_central_logging | bool or kolla_enable_monasca | bool  else 'no' }}"
 kolla_enable_magnum: "no"
 kolla_enable_manila: "no"

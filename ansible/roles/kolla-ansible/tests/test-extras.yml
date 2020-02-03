@@ -104,6 +104,7 @@
             kolla_enable_central_logging: True
             kolla_enable_ceph: True
             kolla_enable_ceph_rgw: True
+            kolla_enable_chrony: True
             kolla_enable_cinder: True
             kolla_enable_cinder_backend_hnas_iscsi: True
             kolla_enable_cinder_backend_hnas_nfs: True
@@ -175,7 +176,7 @@
             kolla_nova_compute_ironic_host: "controller1"
 
         - name: Verify kolla-ansible installation
-          command: "{{ temp_path }}/venv/bin/kolla-ansible -h"
+          shell: ". {{ temp_path }}/venv/bin/activate && kolla-ansible -h"
           changed_when: False
 
         - name: Verify ansible installation
@@ -237,6 +238,7 @@
               #enable_central_logging: True
               #enable_ceph: True
               #enable_ceph_rgw: True
+              #enable_chrony: True
               #enable_cinder: True
               #enable_cinder_backend_iscsi: True
               #enable_cinder_backend_hnas_iscsi: True

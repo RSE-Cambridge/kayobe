@@ -1,8 +1,8 @@
 ---
 - hosts: primary
   vars:
-    kayobe_src_dir: "{{ ansible_env.PWD ~ '/' ~ zuul.projects['opendev.org/x/kayobe'].src_dir }}"
-    kayobe_config_src_dir: "{{ ansible_env.PWD ~ '/' ~ zuul.projects['opendev.org/x/kayobe-config-dev'].src_dir }}"
+    kayobe_src_dir: "{{ ansible_env.PWD ~ '/' ~ zuul.projects['opendev.org/openstack/kayobe'].src_dir }}"
+    kayobe_config_src_dir: "{{ ansible_env.PWD ~ '/' ~ zuul.projects['opendev.org/openstack/kayobe-config-dev'].src_dir }}"
     previous_kayobe_src_dir: "{{ ansible_env.PWD ~ '/previous/kayobe' }}"
     previous_kayobe_config_src_dir: "{{ ansible_env.PWD ~ '/previous/kayobe-config' }}"
     logs_dir: "/tmp/logs"
@@ -34,9 +34,9 @@
         - name: Ensure test Tenks cluster is deployed
           shell:
             # Pass absolute source directory, since otherwise the `chdir` will
-            # cause this to fail. Don't use previous_kayobe_source_dir as tenks-deploy.sh
-            # does not exist there.
-            cmd: dev/tenks-deploy.sh '{{ tenks_src_dir }}' > {{ logs_dir }}/ansible/tenks-deploy
+            # cause this to fail. Don't use previous_kayobe_source_dir as
+            # tenks-deploy-compute.sh does not exist there.
+            cmd: dev/tenks-deploy-compute.sh '{{ tenks_src_dir }}' > {{ logs_dir }}/ansible/tenks-deploy
             chdir: "{{ kayobe_src_dir }}"
 
       environment:

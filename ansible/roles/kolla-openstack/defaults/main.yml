@@ -39,6 +39,12 @@ kolla_enable_designate:
 kolla_extra_designate:
 
 ###############################################################################
+# Elasticsearch configuration.
+
+# Whether to enable elasticsearch.
+kolla_enable_elasticsearch:
+
+###############################################################################
 # Glance configuration.
 
 # Whether to enable Glance.
@@ -67,6 +73,15 @@ kolla_extra_grafana:
 kolla_enable_haproxy:
 
 ###############################################################################
+# Keystone configuration.
+
+# Whether to enable Keystone.
+kolla_enable_keystone:
+
+# Free form extra configuration to append to Keystone.conf
+kolla_extra_keystone:
+
+##############################################################################
 # Heat configuration.
 
 # Whether to enable Heat.

@@ -1,8 +1,8 @@
 ---
 - hosts: primary
   vars:
-    kayobe_src_dir: "{{ ansible_env.PWD ~ '/' ~ zuul.projects['opendev.org/x/kayobe'].src_dir }}"
-    kayobe_config_src_dir: "{{ ansible_env.PWD ~ '/' ~ zuul.projects['opendev.org/x/kayobe-config-dev'].src_dir }}"
+    kayobe_src_dir: "{{ ansible_env.PWD ~ '/' ~ zuul.projects['opendev.org/openstack/kayobe'].src_dir }}"
+    kayobe_config_src_dir: "{{ ansible_env.PWD ~ '/' ~ zuul.projects['opendev.org/openstack/kayobe-config-dev'].src_dir }}"
     logs_dir: "/tmp/logs"
     tenks_src_dir: "{{ ansible_env.PWD ~ '/' ~ zuul.projects['opendev.org/openstack/tenks'].src_dir }}"
   environment:
@@ -16,7 +16,7 @@
       shell:
         # Pass absolute source directory, since otherwise the `chdir` will
         # cause this to fail.
-        cmd: dev/tenks-deploy.sh '{{ tenks_src_dir }}' > {{ logs_dir }}/ansible/tenks-deploy
+        cmd: dev/tenks-deploy-compute.sh '{{ tenks_src_dir }}' > {{ logs_dir }}/ansible/tenks-deploy
         chdir: "{{ kayobe_src_dir }}"
 
     - name: Perform testing of the virtualized machines
