@@ -74,6 +74,7 @@ kolla_feature_flags:
   - aodh
   - barbican
   - blazar
+  - caso
   - ceilometer
   - central_logging
   - ceph

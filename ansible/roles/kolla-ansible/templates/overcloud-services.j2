@@ -100,13 +100,13 @@ storage
 cinder
 
 [cinder-backup:children]
-storage
+cinder
 
 [cinder-scheduler:children]
 cinder
 
 [cinder-volume:children]
-storage
+cinder
 
 # Cloudkitty
 [cloudkitty-api:children]
@@ -521,5 +521,18 @@ monitoring
 [prometheus-openstack-exporter:children]
 monitoring
 
+[prometheus-mtail:children]
+monitoring
+control
+compute
+network
+storage
+
 [prometheus-elasticsearch-exporter:children]
 elasticsearch
+
+[prometheus-libvirt-exporter:children]
+compute
+
+[prometheus-jiralert:children]
+prometheus-alertmanager
