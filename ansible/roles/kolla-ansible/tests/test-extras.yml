@@ -57,7 +57,7 @@
             kolla_ansible_source_path: "{{ temp_path }}/src"
             kolla_ansible_ctl_install_type: "source"
             kolla_ansible_source_url: "http://github.com/openstack/kolla-ansible"
-            kolla_ansible_source_version: "master"
+            kolla_ansible_source_version: "{{ openstack_branch }}"
             kolla_ansible_venv: "{{ temp_path }}/venv"
             kolla_ansible_vault_password: "fake-password"
             kolla_config_path: "{{ temp_path }}/etc/kolla"
@@ -181,7 +181,7 @@
             kolla_nova_compute_ironic_host: "controller1"
 
         - name: Verify kolla-ansible installation
-          command: "{{ temp_path }}/venv/bin/kolla-ansible -h"
+          shell: ". {{ temp_path }}/venv/bin/activate && kolla-ansible -h"
           changed_when: False
 
         - name: Verify ansible installation

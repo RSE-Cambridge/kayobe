@@ -15,7 +15,7 @@
             kolla_ansible_source_path: "{{ temp_path }}/src"
             kolla_ansible_ctl_install_type: "source"
             kolla_ansible_source_url: "http://github.com/openstack/kolla-ansible"
-            kolla_ansible_source_version: "master"
+            kolla_ansible_source_version: "{{ openstack_branch }}"
             kolla_ansible_venv: "{{ temp_path }}/venv"
             kolla_config_path: "{{ temp_path }}/etc/kolla"
             kolla_node_custom_config_path: "{{ temp_path }}/etc/kolla/config"
@@ -35,7 +35,7 @@
             kolla_openstack_logging_debug: False
 
         - name: Verify kolla-ansible installation
-          command: "{{ temp_path }}/venv/bin/kolla-ansible -h"
+          shell: ". {{ temp_path }}/venv/bin/activate && kolla-ansible -h"
           changed_when: False
 
         - name: Verify ansible installation
